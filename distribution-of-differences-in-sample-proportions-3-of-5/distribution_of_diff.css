@@ -1,0 +1,56 @@
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-size: 12px;
+}
+
+input[type=range].slider {
+    display: inline-block;
+    width: 50%;
+}
+
+.slider-val {
+    display: inline-block;
+}
+
+div#population1, div#population2 {
+    width: 180px;
+}
+
+path.domain {
+    stroke-width: 0.5px;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}
+
+#mean-val {
+    width: 400px;
+}
+
+#buttons {
+    margin-left: 15px;
+}
+
+#actual-diff-container {
+    width: 450px;
+    margin-left: 15px;
+}
+#actual-diff-slider {
+    width: 35%;
+}
+
+#diff-eqtn {
+    color: red;
+    text-align: center;
+    font-size: 14px;
+    position: absolute;
+}

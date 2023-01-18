@@ -1,0 +1,66 @@
+
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-size: 11px;
+}
+
+#population-table-container {
+    overflow: auto;
+    height: 355px;
+    width: auto;
+}
+
+/*div#sample {
+    margin-left: -50px;
+    margin-right: -50px;
+}*/
+
+div.table-col {
+    width: 170px;
+}
+.student-table {
+    border: 2px solid black;
+    text-align: center;
+    table-layout: fixed;
+}
+
+.sample-students {
+    background-color: #ccf2ff;
+}
+
+.student-header {
+    background-color: #FFFFE0;
+    padding-bottom: 12px;
+}
+
+.selected-row {
+    background-color: #ccf2ff;
+}
+.statistics {
+    border: 2px solid black;
+    display: inline-block;
+    padding: 5px
+}
+
+.instructions {
+    color: gray;
+    font-size: 10px;
+}
+
+div.top-row {
+    padding-top: 10px;
+}
+
+.arrow {
+    margin: -15px;
+}
+
+#sample-num {
+    font-size: 14px;
+}

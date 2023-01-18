@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <style type="text/css"></style>
+    <link rel="stylesheet" href="distribution_of_diff.css" type="text/css">
+    <script type="text/javascript" src="distribution_of_diff.js"></script>
+
+    <script src="d3.min.js"></script>
+
+    <!-- Adds MathJax -->
+    <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+
+  	<title>Distribution of Differences</title>
+</head>
+
+<!-- creates the slider and button to flip the sign -->
+
+<body class="noselect">
+    <span class="row">
+
+        <div class="col-xs-2" id="population1">
+            <h5>Population 1:</h5>
+
+            p<sub>1</sub>=
+            <input id="p1-slider" class="slider" type="range" step="0.01" value="0.6" min="0" max="1"/>
+            <div id="p1-val" class="slider-val"></div><br/>
+
+            n<sub>1</sub>=
+            <input id="n1-slider" class="slider" type="range" value="100" min="50" max="150" step="10"/>
+            <div id="n1-val" class="slider-val"></div><br/>
+
+        </div>
+
+        <div class="col-xs-2" id="population2">
+            <h5>Population 2:</h5>
+
+            p<sub>2</sub>=
+            <input id="p2-slider" class="slider" type="range" step="0.01" value="0.7" min="0" max="1"/>
+            <div id="p2-val" class="slider-val"></div><br/>
+
+            n<sub>2</sub>=
+            <input id="n2-slider" class="slider" type="range" value="100" min="50" max="150" step="10"/>
+            <div id="n2-val" class="slider-val"></div><br/>
+
+        </div>
+        <br/>
+
+    </span>
+    <div id="buttons">
+        <button id="draw" type="button" class="btn btn-default btn-sm">5000 samples from each</button>&nbsp;
+        <button id="reset" type="button" class="btn btn-default btn-sm">
+            Reset
+        </button><br/><br/>
+    </div>
+    <div id="mean-val" align="center">mean =</div>
+    <div id="graph"></div>
+    <div id="actual-diff-container">
+        <div id="diff-eqtn">p&#x0302;<sub>1</sub>-p&#x0302;<sub>2</sub>=</div>
+        Actual diff of sample props
+        <input id="actual-diff-slider" class="slider" type="range" min="-1" max="1" step="0.05"/>
+        <div id="actual-diff-val" class="slider-val"></div>
+    </div>
+
+
+</body>
+
+</html>

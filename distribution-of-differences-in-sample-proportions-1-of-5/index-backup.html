@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="random_sample_diff.css" type="text/css">
+    <script type="text/javascript" src="random_sample_diff.js"></script>
+
+    <script src="d3.min.js"></script>
+
+    <!-- Adds MathJax -->
+    <script src="MathJax.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+
+  	<title>Random Sample</title>
+</head>
+
+<!-- creates the slider and button to flip the sign -->
+
+<body class="noselect">
+    <span class="row">
+        <div class="text-center">
+            <button id="draw" type="button" class="btn btn-default btn-sm">Choose a random sample from each</button>
+            <button id="reset" type="button" class="btn btn-default btn-sm">
+                Reset
+            </button><br/><br/>
+
+        </div>
+        <div class="col-xs-6" id="population1">
+        <table class="population-table" align="right">
+        <tbody>
+            <tr>
+                <td class="text-center">
+                    <div class="boxed-info">
+                    Pop.1 (p<sub>1</sub>=0.26)
+                    </div>
+                    <div id="sample-size1">$$n=64$$</div>
+                    <div id="population-arrow1" class="arrow population-arrow">&#x2193;</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="box">
+                    <canvas id="sample1" class="sample-visual"></canvas>
+                </td>
+                <td id="s1-yn">
+                    <div class="yes yes-no">Y</div><div id="s1-yes" class="count"></div><br/>
+                    <div class="no yes-no">N</div><div id="s1-no" class="count"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="sample-info">
+                    <div class="sample-arrow arrow">&#x2193;</div>
+                    <div class="boxed-info" id="pval-sample1"></div>
+                    <div class="statistic-arrow arrow">&searr;</div>
+                </td>
+                <td></td>
+            </tr>
+        </tbody>
+        </table>
+        </div>
+        <div class="col-xs-6" id="population2">
+        <table class="population-table" align="left">
+        <tbody>
+            <tr>
+                 <td class="text-center">
+                    <div class="boxed-info">
+                        Pop.2 (p<sub>2</sub>=0.10)
+                    </div>
+                    <div id="sample-size2">$$n=100$$</div>
+                    <div id="population-arrow2" class="arrow population-arrow">&#x2193;</div>
+                </td>
+            </tr>
+            <tr class="pop2-span">
+                <td class="box">
+                    <canvas id="sample2" class="sample-visual"></canvas>
+                </td>
+                <td id="s2-yn">
+                    <div class="yes yes-no">Y</div><div id="s2-yes" class="count"></div><br/>
+                    <div class="no yes-no">N</div><div id="s2-no" class="count"></div>
+                </td>
+            </tr>
+            <tr>
+                <td class="sample-info">
+                    <div class="arrow sample-arrow">&#x2193;</div>
+                    <div class="boxed-info" id="pval-sample2"></div>
+                    <div class="arrow statistic-arrow">&swarr;</div>
+                </td>
+            </tr>
+        </tbody>
+        </table>
+        </div>
+    </span>
+
+    <div id="stats-box" class="text-center">
+    <div id="stat-text">statistic&nbsp;</div><div class="boxed-info" align="center" id="difference"></div><br/><br/>
+        <div class="boxed-info" align="center"><h5>Sampling Distribution of</h5>
+            $$\hat{p_{1}} - \hat{p_{2}}$$
+            <div class="text-center content" id="content"></div>
+        </div>
+    </div>
+
+</body>
+
+</html>

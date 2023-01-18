@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type"
+        content="application/xhtml+xml; charset=utf-8"/>
+  <script src="jquery-1.3.2.min.js"></script>
+  <script src="d3.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="t_distribution.js"></script>
+  <style>
+      .Graph
+    {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+      div
+    {
+      width: 400px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
+</head>
+<body>
+  <div align="center">
+  <p align="center"> Enter the desired degrees of freedom into the text box below and click enter to change the distribution.</p>
+    <form>
+ <input type="text" id="tbox" value="1">  <input id="enter" type="button" value="Enter"><br><br>
+</form>
+  </div>
+
+
+
+  <!--   <p id="df" align="center">df=1</p>-->
+  <p align="center"> Drag the orange flag left or right to change the t-value. Alternatively, enter the t-value in the box and click enter.
+    </p>
+  <div class="Instructions"/>
+
+  <form align="center">
+ t-value: <input type="text" id="zbox" value="-1">  <input id="enter2" type="button" value="Enter"><br><br>
+</form>
+
+  <svg id="graph" class='Graph'/>
+
+
+  <p align="center" id="cdf"> The light area to the left of the t value: </p>
+  <p align="center" id="r-cdf"> The dark area to the left of the t value: </p>
+</body>
+</html>

@@ -1,0 +1,99 @@
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#stat-text {
+    font-size: 10px;
+    display: inline-block;
+}
+
+#population-table, #sample-table {
+    overflow: auto;
+    height: 500px;
+    width: auto;
+}
+
+#population-table table {
+    table-layout: fixed;
+}
+
+.sample-visual {
+    border: 2px;
+    border-color: gray;
+    background-color: #B5B5B5;
+    border-style: solid;
+}
+
+.yes-no {
+    font-weight: bold;
+    display: inline-block;
+    font-size: 12px;
+}
+
+.yes {
+    color: red;
+}
+.no {
+    color: blue;
+}
+div.count {
+    display: inline-block;
+    font-size: 12px;
+}
+.population-arrow {
+    font-weight: bold;
+    margin-top: -10px;
+}
+
+#pop2-arrow {
+    margin-bottom: -16px;
+}
+
+.arrow {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
+.sample-arrow {
+    margin-top: -15px;
+}
+
+.statistic-arrow {
+    font-weight: bold;
+    margin-top: -10px;
+    z-index: -1;
+    position: relative;
+}
+
+#pval-sample1 {
+    margin-top: 20px;
+}
+
+div.boxed-info {
+    border: 1px;
+    border-color: black;
+    border-style: solid;
+    display: inline-block;
+    padding: 2px;
+    background-color: white;
+    font-size: 11px;
+}
+
+table.population-table {
+    margin: 0 auto;
+}
+
+td.box {
+    white-space: nowrap;
+    text-align: center;
+}
+
+#stats-box {
+    margin-top: -15px;
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type"
+        content="application/xhtml+xml; charset=utf-8"/>
+  <script src="jquery-1.3.2.min.js"></script>
+  <script src="d3.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="dist_sample_means_2tails.js"></script>
+  <style>
+      .Graph
+    {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+      div
+    {
+      width: 400px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
+</head>
+<body>
+  <p align="center"> Drag the orange flag left or right to change the Z-score.<br>Alternatively, enter Z-scores into the textboxes and click enter.</p>
+  <div class="Instructions"/>
+   <input type="text" id="zbox" value="-1"> <input type="text" id="zbox2" value="1"> <input id="enter" type="button" value="Enter"><br>
+</form>
+  <svg class='Graph'/>
+
+  <p align="center" id="lefttext"> The left tail has area: </p>
+  <p align="center" id="middle"> The middle section has area: </p>
+  <p align="center" id="righttext"> The right tail has area: </p>
+</body>
+</html>

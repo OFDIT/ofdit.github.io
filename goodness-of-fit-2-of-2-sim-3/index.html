@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html>
+<head><title>Canvas code example</title>
+<script src="jquery-1.3.2.min.js"></script>
+<!--<script src="jquery-1.11.3.min.js"></script>-->
+<script src="d3.js"></script>
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+<script src="jstat.js"></script>
+<script>
+
+var value = 5;
+function approx_gamma(Z)
+{
+    var RECIP_E = 0.36787944117144232159552377016147;  // RECIP_E = (E^-1) = (1.0 / E)
+    varTWOPI = 6.283185307179586476925286766559;  // TWOPI = 2.0 * PI
+
+    var D = 1.0 / (10.0 * Z);
+    D = 1.0 / ((12 * Z) - D);
+    D = (D + Z) * RECIP_E;
+    D = Math.pow(D, Z);
+    D *= Math.sqrt(TWOPI / Z);
+
+    return D;
+}
+
+function gamma(N)
+{
+    var SQRT2PI = 2.5066282746310005024157652848110452530069867406099383;
+
+    var Z = N;
+    var A=15;
+   var Sc = Math.pow((Z + A), (Z + 0.5));
+    Sc *= Math.exp(-1.0 * (Z + A));
+    Sc /= Z;
+
+    var F = 1.0;
+    var Ck;
+    var Sum = SQRT2PI;
+
+
+    for(var K = 1; K < A; K++)
+    {
+        Z++;
+	Ck = Math.pow(A - K, K - 0.5);
+	Ck *= Math.exp(A - K);
+	Ck /= F;
+
+	Sum += (Ck / Z);
+
+	F *= (-1.0 * K);
+    }
+
+    return (Sum * Sc);
+}
+
+function fun2(x,k){
+    var p=1/(Math.pow(2,k/2)*gamma(k/2));
+    p=p*Math.pow(x,k/2-1)*Math.exp(-x/2);
+    return p;
+}
+
+
+
+function igf(S,Z)
+{
+    if(Z < 0.0)
+    {
+	return 0.0;
+    }
+    var Sc = (1.0 / S);
+    Sc *= Math.pow(Z, S);
+    Sc *= Math.exp(-Z);
+
+    var Sum = 1.0;
+    var Nom = 1.0;
+    var Denom = 1.0;
+
+    for(var I = 0; I < 200; I++)
+    {
+	Nom *= Z;
+	S++;
+	Denom *= S;
+	Sum += (Nom / Denom);
+    }
+
+    return Sum * Sc;
+}
+
+
+function fun1(Cv) {
+{
+	var Dof = 1;
+    if(Cv < 0 || Dof < 1)
+    {
+        return 0.0;
+    }
+    var K = (Dof) * 0.5;
+    var X = Cv * 0.5;
+    if(Dof == 2)
+    {
+	return exp(-1.0 * X);
+    }
+
+    var PValue = igf(K, X);
+    if(isNaN(PValue) || PValue <= 1e-8)
+    {
+        return 1e-14;
+    }
+
+    PValue /= gamma(K);
+    //PValue /= tgamma(K);
+
+    return (1.0 - PValue);
+}
+
+
+}
+</script>
+<head>
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+
+    </style>
+  </head>
+  <body>
+
+<form align="center">
+  <!-- creates drop menu to change the Dof -->
+  Degrees of Freedom:
+  <select id="doflist">
+    <option>1</option>
+    <option>2</option>
+    <option>3</option>
+    <option>4</option>
+    <option>5</option>
+    <option>6</option>
+    <option>7</option>
+    <option>8</option>
+    <option>9</option>
+</select>
+</form>
+<form align="center">
+<div align="center">
+   <br>Chi-square: <input type="text" id="zbox" value="10"></input> <input id="enter" type="button" value="Enter"></input>
+</div></form>
+    <form align="center">
+    <p id="probability">Probability = 0.0016</p></form>
+    <canvas id="myCanvas" width="878" height="500"></canvas>
+    <form align="center">
+    <script>
+      function Graph(config) {
+        // user defined properties
+        this.canvas = document.getElementById(config.canvasId);
+        this.minX = config.minX;
+        this.minY = config.minY;
+        this.maxX = 10;
+        this.maxY = config.maxY;
+        this.unitsPerTick = config.unitsPerTick;
+
+        // constants
+        this.axisColor = '#aaa';
+        this.font = '8pt Calibri';
+        this.tickSize = 20;
+
+        // relationships
+        this.context = this.canvas.getContext('2d');
+        this.rangeX = this.maxX - this.minX;
+        this.rangeY = (this.maxY - this.minY);
+        this.unitX = this.canvas.width / this.rangeX;
+        this.unitY = this.canvas.height / this.rangeY;
+        this.centerY = Math.round(Math.abs(this.minY / this.rangeY) * this.canvas.height);
+        this.centerX = Math.round(Math.abs(this.minX / this.rangeX) * this.canvas.width);
+        this.iteration = (this.maxX - this.minX) / 1000;
+        this.scaleX = this.canvas.width / this.rangeX;
+        this.scaleY = this.canvas.height / this.rangeY;
+
+        // draw x and y axis
+        this.drawXAxis();
+        this.drawYAxis();
+      }
+
+      Graph.prototype.drawXAxis = function() {
+        var context = this.context;
+        context.save();
+        context.beginPath();
+        context.moveTo(0, this.centerY);
+        context.lineTo(this.canvas.width, this.centerY);
+        context.strokeStyle = this.axisColor;
+        context.lineWidth = 2;
+        context.stroke();
+
+        // draw tick marks
+        var xPosIncrement = this.unitsPerTick * this.unitX/4;
+        var xPos, unit;
+        context.font = this.font;
+        context.textAlign = 'center';
+        context.textBaseline = 'top';
+
+        // draw left tick marks
+        xPos = this.centerX - xPosIncrement;
+        unit = -1 * this.unitsPerTick;
+        while(xPos > 0) {
+          context.moveTo(xPos, this.centerY - this.tickSize / 2);
+          context.lineTo(xPos, this.centerY + this.tickSize / 2);
+          context.stroke();
+          context.fillText(unit+1, xPos, this.centerY + this.tickSize / 2 + 3);
+          unit -= this.unitsPerTick/2;
+          xPos = Math.round(xPos - xPosIncrement);
+        }
+
+        // draw right tick marks
+        xPos = this.centerX + xPosIncrement;
+        unit = this.unitsPerTick;
+        while(xPos < this.canvas.width) {
+          context.moveTo(xPos, this.centerY - this.tickSize / 2);
+          context.lineTo(xPos, this.centerY + this.tickSize / 2);
+          context.stroke();
+          context.fillText(unit-1, xPos, this.centerY + this.tickSize / 2 + 3);
+          unit += this.unitsPerTick/2;
+          xPos = Math.round(xPos + xPosIncrement);
+        }
+        context.restore();
+      };
+
+      Graph.prototype.drawYAxis = function() {
+        var context = this.context;
+        context.save();
+        context.beginPath();
+        context.moveTo(this.centerX, 0);
+        context.lineTo(this.centerX, this.canvas.height);
+        context.strokeStyle = this.axisColor;
+        context.lineWidth = 2;
+        context.stroke();
+
+        // draw tick marks
+        var yPosIncrement = this.unitsPerTick * this.unitY/2;
+        var yPos, unit;
+        context.font = this.font;
+        context.textAlign = 'right';
+        context.textBaseline = 'middle';
+
+        // draw top tick marks
+        yPos = this.centerY - yPosIncrement;
+        unit = this.unitsPerTick;
+        while(yPos > 0) {
+          context.moveTo(this.centerX - this.tickSize / 2, yPos);
+          context.lineTo(this.centerX + this.tickSize / 2, yPos);
+          context.stroke();
+          context.fillText(unit/20, this.centerX - this.tickSize / 2 - 3, yPos);
+          unit += this.unitsPerTick;
+          yPos = Math.round(yPos - yPosIncrement);
+        }
+
+        // draw bottom tick marks
+        /*yPos = this.centerY + yPosIncrement;
+        unit = -1 * this.unitsPerTick;
+        while(yPos < this.canvas.height) {
+          context.moveTo(this.centerX - this.tickSize / 2, yPos);
+          context.lineTo(this.centerX + this.tickSize / 2, yPos);
+          context.stroke();
+          context.fillText(unit/20, this.centerX - this.tickSize / 2 - 3, yPos);
+          unit -= this.unitsPerTick;
+          yPos = Math.round(yPos + yPosIncrement);
+        }*/
+        context.restore();
+      };
+
+      var newcontext;
+      var newcontext2;
+
+      Graph.prototype.drawEquation = function(equation, color, thickness) {
+        var context = this.context;
+        newcontext = context;
+        context.save();
+        this.transformContext();
+
+        context.beginPath();
+
+        context.moveTo(this.minX, equation(this.minX));
+
+
+        for(var x = this.minX + this.iteration; x <= this.maxX; x += this.iteration) {
+          context.lineTo(x, equation(x));
+        }
+
+
+        context.restore();
+        context.lineJoin = 'round';
+        context.lineWidth = thickness;
+        context.strokeStyle = color;
+
+
+        context.lineTo(this.canvas.width,this.canvas.height*(7/8));
+        context.lineTo(80,this.canvas.height*(7/8));
+        context.stroke();
+        context.closePath();
+        context.fillStyle = '#000000';
+        context.fill();
+
+
+//See: http://www.html5canvastutorials.com/tutorials/html5-canvas-shape-fill/
+        context.restore();
+
+      };
+
+function mymin(a,b){
+  if(a<b){
+    return a;
+  }
+  else{
+    return b;
+  }
+}
+
+Graph.prototype.drawEquation2 = function(equation, color, thickness) {
+        var context = this.context;
+        newcontext2 = context;
+        context.save();
+        this.transformContext();
+
+        context.beginPath();
+
+        context.moveTo(80, equation(0));
+
+
+        for(var x = this.minX + this.iteration; x <= this.maxX*(value/10); x += this.iteration) {
+          context.lineTo(x, equation(x));
+        }
+
+
+        context.restore();
+        context.lineJoin = 'round';
+        context.lineWidth = thickness;
+        context.strokeStyle = color;
+
+
+        context.lineTo(80+796*(value/10),this.canvas.height*(7/8));
+        context.lineTo(80,this.canvas.height*(7/8));
+        context.stroke();
+        context.closePath();
+        context.fillStyle = "#F2F2F2";//"rgba(0, 0, 200, 0)";
+//'#8ED6FF';
+        context.fill();
+
+
+      Graph.prototype.drawEquation3 = function(equation, color, thickness) {
+        var context = this.context;
+        newcontext = context;
+        context.save();
+        this.transformContext();
+
+        context.beginPath();
+
+        context.moveTo(this.minX, equation(this.minX));
+
+
+        for(var x = this.minX + this.iteration; x <= this.maxX; x += this.iteration) {
+          context.lineTo(x, equation(x));
+        }
+
+
+        context.restore();
+        context.lineJoin = 'round';
+        context.lineWidth = thickness;
+        context.strokeStyle = color;
+
+
+        context.lineTo(this.canvas.width,this.canvas.height*(7/8));
+        context.lineTo(80,this.canvas.height*(7/8));
+        context.stroke();
+        context.closePath();
+        context.fillStyle = "rgba(0, 0, 200, 0)";
+        context.fill();
+
+
+//See: http://www.html5canvastutorials.com/tutorials/html5-canvas-shape-fill/
+        context.restore();
+
+      };
+
+//See: http://www.html5canvastutorials.com/tutorials/html5-canvas-shape-fill/
+        context.restore();
+
+      };
+
+      Graph.prototype.transformContext = function() {
+        var context = this.context;
+
+        // move context to center of canvas
+        this.context.translate(this.centerX, this.centerY);
+
+        /*
+         * stretch grid to fit the canvas window, and
+         * invert the y scale so that that increments
+         * as you move upwards
+         */
+        context.scale(this.scaleX, -this.scaleY);
+      };
+
+      var myGraph = new Graph({
+        canvasId: 'myCanvas',
+        minX: -1,
+        minY: -7,
+        maxX: 10,
+        maxY: 1,
+        unitsPerTick: 2
+      });
+
+
+      var neweq = myGraph.drawEquation(function fun1(x){
+        x=x*2;
+        var doflist = document.getElementById("doflist").value;
+        var k =doflist;
+    var p=1/(Math.pow(2,k/2)*gamma(k/2));
+    p=p*Math.pow(x,k/2-1)*Math.exp(-x/2);
+    return 20*p;
+}, 'red', 1);
+
+    var neweq = myGraph.drawEquation2(function fun1(x){
+      x=x*2;
+        var doflist = document.getElementById("doflist").value;
+        var k =doflist;
+    var p=1/(Math.pow(2,k/2)*gamma(k/2));
+    p=p*Math.pow(x,k/2-1)*Math.exp(-x/2);
+    return 20*p;
+}, 'red', 1);
+
+
+var doflist = d3.select("#doflist");
+  doflist.on("change",function(){
+        //neweq.clear();
+        var dof = document.getElementById("doflist").value;
+        newcontext.clearRect(0, 0, myCanvas.width, myCanvas.height);
+        newcontext2.clearRect(0, 0, myCanvas.width, myCanvas.height);
+         myGraph = new Graph({
+        canvasId: 'myCanvas',
+        minX: -1,
+        minY: -7,
+        maxX: 10,
+        maxY: 1,
+        unitsPerTick: 2
+      });
+
+
+    neweq = myGraph.drawEquation(function fun1(x){
+          x=x*2;
+       if(x < 0){
+        return 0;
+    }
+        var k = dof;
+    var p=1/(Math.pow(2,k/2)*gamma(k/2));
+    p=p*Math.pow(x,k/1.999-1)*Math.exp(-x/2);
+    return 20*p;
+}, 'red', 1);
+
+    neweq = myGraph.drawEquation2(function fun1(x){
+      x=x*2;
+   if(x < 0){
+        return 0;
+    }
+     var doflist = document.getElementById("doflist").value;
+    var k =doflist;
+    var p=1/(Math.pow(2,k/2)*gamma(k/2));
+    p=p*Math.pow(x,k/1.999-1)*Math.exp(-x/2);
+    return 20*p;
+}, 'red', 1);
+
+  var prob = d3.select("#probability");
+  prob.text("Probability = " + (1-jStat.chisquare.cdf( value*2, dof )).toFixed([4]));
+  drawBackground();
+
+
+});
+
+var enter = d3.select("#enter");
+
+enter.on("click", function(){
+    value = document.getElementById("zbox").value/2;
+        var dof = document.getElementById("doflist").value;
+        newcontext.clearRect(0, 0, myCanvas.width, myCanvas.height);
+        newcontext2.clearRect(0, 0, myCanvas.width, myCanvas.height);
+         myGraph = new Graph({
+        canvasId: 'myCanvas',
+        minX: -1,
+        minY: -7,
+        maxX: 10,
+        maxY: 1,
+        unitsPerTick: 2
+      });
+
+    neweq = myGraph.drawEquation(function fun1(x){
+          x=x*2;
+       if(x < 0){
+        return 0;
+    }
+        var k = dof;
+    var p=1/(Math.pow(2,k/2)*gamma(k/2));
+    p=p*Math.pow(x,k/1.999-1)*Math.exp(-x/2);
+    return 20*p;
+}, 'red', 1);
+
+
+    neweq = myGraph.drawEquation2(function fun1(x){
+      x=x*2;
+   if(x < 0){
+        return 0;
+    }
+     var doflist = document.getElementById("doflist").value;
+    var k =doflist;
+    var p=1/(Math.pow(2,k/2)*gamma(k/2));
+    p=p*Math.pow(x,k/1.999-1)*Math.exp(-x/2);
+    return 20*p;
+}, 'red', 1);
+
+
+  var prob = d3.select("#probability");
+  prob.text("Probability = " +  (1-jStat.chisquare.cdf( value*2, dof )).toFixed([4]));
+  drawBackground();
+
+});
+
+function drawBackground(){
+       myGraph.drawEquation3(function fun1(x){
+           if(x < 0){
+        return 0;
+    }
+          var k =1;
+      var p=1/(Math.pow(2,k/2)*gamma(k/2));
+      p=p*Math.pow(x,k/2-1)*Math.exp(-x/2);
+      return 20*p;
+  }, '#505050', 0.5);
+
+       myGraph.drawEquation3(function fun1(x){
+           if(x < 0){
+        return 0;
+    }
+          var k =2;
+      var p=1/(Math.pow(2,k/2)*gamma(k/2));
+      p=p*Math.pow(x,k/2-1)*Math.exp(-x/2);
+      return 20*p;
+  }, '#505050', 0.5);
+
+        myGraph.drawEquation3(function fun1(x){
+             if(x < 0){
+        return 0;
+    }
+          var k =3;
+      var p=1/(Math.pow(2,k/2)*gamma(k/2));
+      p=p*Math.pow(x,k/2-1)*Math.exp(-x/2);
+      return 20*p;
+  }, '#505050', 0.5);
+
+        myGraph.drawEquation3(function fun1(x){
+             if(x < 0){
+        return 0;
+    }
+          var k =4;
+      var p=1/(Math.pow(2,k/2)*gamma(k/2));
+      p=p*Math.pow(x,k/2-1)*Math.exp(-x/2);
+      return 20*p;
+  }, '#505050', 0.5);
+
+        myGraph.drawEquation3(function fun1(x){
+             if(x < 0){
+        return 0;
+    }
+          var k =5;
+      var p=1/(Math.pow(2,k/2)*gamma(k/2));
+      p=p*Math.pow(x,k/2-1)*Math.exp(-x/2);
+      return 20*p;
+  }, '#505050', 0.5);
+
+        myGraph.drawEquation3(function fun1(x){
+             if(x < 0){
+        return 0;
+    }
+          var k =6;
+      var p=1/(Math.pow(2,k/2)*gamma(k/2));
+      p=p*Math.pow(x,k/2-1)*Math.exp(-x/2);
+      return 20*p;
+  }, '#505050', 0.5);
+
+//needed to keep axis numbers black for some reason
+        myGraph.drawEquation(function dummy(x){
+          return 0;
+        }, '#000000', 0.2);
+}
+
+drawBackground();
+
+
+
+
+
+
+
+
+    </script>
+  </body>
+</html>

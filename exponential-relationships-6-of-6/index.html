@@ -1,0 +1,73 @@
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="d3.slider.js"></script>
+  <script src="exponentialrelationships6of6.js"></script>
+  <style>
+    <!--Hacks for proper iframe responsive support-->
+    body {
+      width: 1px;
+      min-width: 100%;
+    }
+    input[type=range].horizontal {
+      margin-left: 100px;
+      /*margin-top: 162px;*/
+      width: 300px;
+      /*transform: rotate(270deg);*/
+      /*-moz-transform: rotate(270deg);*/
+      /*position: absolute;*/
+      display: block;
+    }
+
+    svg {
+      margin-left: 90px;
+      font: 10px sans-serif;
+      margin-top: 8px;
+    }
+    .grid .tick {
+      stroke: lightgrey;
+      opacity: 0.7;
+    }
+    .grid path {
+      stroke-width: 0;
+    }
+    .axis {
+      shape-rendering: crispEdges;
+    }
+    .axis line {
+      fill: none;
+      shape-rendering: crispEdges;
+    }
+    .y.axis line, .y.axis path {
+      fill: none;
+      stroke: lightgrey;
+    }
+    #slope {
+      /*margin-left: -150px;*/
+    }
+    .range-slider{
+      display: block;
+      margin-left:  90px;
+    }
+    #intercept, #growth-factor {
+      width: 250px;
+    }
+  </style>
+</head>
+<body>
+  <svg class='graph'/>
+
+  <div class="range-slider">
+          <input type="range" name="intercept" id="intercept" min='1' max='12' step='.01'/>
+        <label for="intercept"> Foo: </label>
+  </div>
+
+  <div class="range-slider">
+        <input type="range" name="growth-factor" id="growth-factor"  min='0.9' max='1' step='.001'/>
+      <label for="growth-factor"></label>
+  </div>
+
+</body>
+</html>

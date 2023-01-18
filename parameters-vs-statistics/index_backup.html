@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+            <script src="jquery.min.js"></script>
+            <style type="text/css"></style>
+            <link rel="stylesheet" href="random_sample.css" type="text/css">
+                <script type="text/javascript" src="random_sample.js"></script>
+
+                <!-- Adds MathJax -->
+                <script src='MathJax.js'></script>
+
+                <!-- Latest compiled and minified CSS -->
+                <link rel="stylesheet" href="bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+
+                    <!-- Optional theme -->
+                    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+
+                        <title>Random Sample</title>
+    </head>
+
+    <!-- creates the slider and button to flip the sign -->
+
+    <body class="noselect">
+
+        <span class="row">
+            <div class="col-xs-9 top-row">
+                <button id="redraw" type="button" class="btn btn-default btn-sm">Choose Sample of 8 Students</button>
+                <button id="reset" type="button" class="btn btn-default btn-sm">Reset</button>
+            </div>
+        </span>
+        <span class="row">
+            <div class="col-xs-2 table-col text-center" id="population">
+                <h5>Population:</h5>
+                250 College Students<br/>
+                60% eligible for financial aid<br/>
+                <div class="instructions">Use slider to view students chosen.</div><br/>
+                <div id="population-table-container" align="center"></div><br/>
+            </div>
+            <div class="col-xs-2 table-col text-center" id="sample">
+                <h5>Sample:</h5>
+                <div id="sample-num">n = 8</div><br/>
+                <div id="sample-table-container" align="center"></div>
+                <h3 id="arrow" class="arrow">&#8681;</h3><br/>
+                <div class="statistics">
+                    <div id="num-yes"></div>
+                    <div id="portion"></div>
+                </div>
+            </div>
+            <div class="col-xs-2 table-col" id="statistics">
+                <h5>Sample Proportions:</h5>
+                <span class="row">
+                    <div class="col-xs-2" id="sample-portions1"></div>
+                    <div class="col-xs-2" id="sample-portions2"></div>
+                    <div class="col-xs-2" id="sample-portions3"></div>
+                </span>
+
+            </div>
+        </span>
+        <div align="center" class="content" id="content">
+        </div>
+
+    </body>
+
+</html>

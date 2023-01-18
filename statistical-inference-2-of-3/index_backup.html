@@ -1,0 +1,57 @@
+<html lang="en">
+	<head>
+<script src="jquery-1.3.2.min.js"></script>
+<!--<script src="jquery-1.11.3.min.js"></script>-->
+<script src="d3.js"></script>
+<script type="text/javascript" src="confidenceinterval.js"></script>
+<script type="text/javascript" src="random.js"></script>
+<script type="text/javascript" src="d3/d3.js"></script>
+<script type="text/javascript" src="d3.v3.min.js"></script>
+
+<link rel="stylesheet" href="confidenceinterval.css"></style>
+
+		<meta charset="UTF-8">
+		<title>Confidence Interval</title>
+	</head>
+
+<body>
+<form align="center"><input id="samplebutton" type="button" value="Click to generate a random sample of 100 students" <="" form="">
+      <p></p>
+
+</form>
+<div align="center">
+	<svg id="textbox" width="500" height="400">
+		<rect x="110" y="5" width="280" height="60" fill="none" stroke="black"/>
+	<text y="25" x="250" text-anchor="middle" > Population: PT college students </text>
+	<text y="55" x="250" text-anchor="middle" style="color:darkblue" align="center"> Percent female: p=0.60 </text>
+		<rect id="rect1" display="none" x="130" y="80" width="250" height="35" fill="none" stroke="black"/>
+		<rect id="yrect1" display="none" x="315" y="85" width="30" height="20" fill="#81DAF5" stroke="none"/>
+	<text display="none" y="100" x="250" text-anchor="middle" id="sampleProportion" align="center">Sample Proportion = p&#770; = N/A </text>
+
+	<text id="text2" display="none" y="150" x="250" text-anchor="middle" style="color:darkblue" align="center"> Sampling distribution: approx.normal </text>
+	<text id="text10" display="none" y="163" x="279" text-anchor="middle" align="center">_____________</text>
+	<text id="text3" display="none" y="180" x="250" text-anchor="middle" align="center"> mean =.60 sd = &radic;(.60)(1-.60)/100 = 0.049</text>
+
+		<rect id="rect2" display="none" x="120" y="230" width="270" height="140" fill="none" stroke="black"/>
+	<text display="none" y="260" x="250" text-anchor="middle" style="color:darkblue" id="ConfidenceInterval" align="center"> 95% Confidence Interval (z* =2.0) </text>
+	<rect id="yrect2" display="none" x="333" y="273" width="33" height="20" fill="lightgreen" stroke="none"/>
+	<rect id="yrect3" display="none" x="220" y="273" width="30" height="20" fill="#81DAF5" stroke="none"/>
+	<text display="none" y="290" x="250" text-anchor="middle" id="lowerLimit" align="center">lower limit = N/A-2.0*0.049 = N/A	</text>
+
+	<rect id="yrect4" display="none" x="336" y="303" width="30" height="20" fill="lightgreen" stroke="none"/>
+	<rect id="yrect5" display="none" x="220" y="303" width="30" height="20" fill="#81DAF5" stroke="none"/>
+
+	<text display="none" y="320" x="250" text-anchor="middle" style="color:darkblue" id="upperLimit" align="center">upper limit = N/A+2.0*0.049 = N/A</text>
+	<text id="text4" display="none" y="350" x="250" text-anchor="middle" align="center">	margin of error = 2.0(0.049) = .098</p>
+	</svg>
+</div>
+
+</p>
+
+<div align="center">
+<svg id="axis" align="center"></svg>
+</div>
+
+
+<p id="phat" hidden>p&#770;</p>
+</body>

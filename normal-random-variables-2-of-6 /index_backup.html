@@ -1,0 +1,27 @@
+<html>
+<head>
+  <meta http-equiv="content-type"
+        content="application/xhtml+xml; charset=utf-8"/>
+  <script src="d3.min.js" charset="utf-8"></script>
+  <script src="jquery.min.js"></script>
+  <script src="IntroToNRVs2Of6.js"></script>
+  <style>
+  .arrow {
+    stroke: blue;
+    stroke-width: 1.5px;
+    fill: white;
+}
+
+  </style>
+</head>
+<body>
+  <svg class='graph'/>
+  <p>
+    <label for='StandardDeviation'>Standard Deviation (σ): </label>
+    <input type='range' class='vertical' id='StandardDeviation' type='range' min='1' max='4' step='.01'/>
+    <label for="StandardDeviation" id='curr'></label>
+  </p>
+  <p class = "vals"></p>
+
+</body>
+</html>
