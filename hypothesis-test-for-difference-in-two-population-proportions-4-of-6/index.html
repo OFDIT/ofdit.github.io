@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type"
+        content="application/xhtml+xml; charset=utf-8"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+  <link rel="stylesheet" href="hypothesis_test.css"/>
+
+  <!-- Adds MathJax -->
+  <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'>
+    MathJax.Hub.Config({ TeX: { extensions: ["color.js"] }});
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="hypothesis_test.js"></script>
+  <style>
+      .Graph
+    {
+      width: 2000px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
+</head>
+<body>
+<span class="row">
+  <div id="input-container" class="col-xs-3">
+    <div id="pop1-container">
+      Population 1:<br>
+      x<sub>1</sub>=
+      <input id="x1-slider" class="slider" type="range" min="1" max="250"/>
+      <div class="slider-val" id="x1-val"></div><br>
+
+      n<sub>1</sub>=
+      <input id="n1-slider" class="slider" type="range" min="1" max="250" value="250" />
+      <div class="slider-val" id="n1-val"></div>
+    </div>
+    <br>
+    <div id="pop2-container">
+      Population 2:<br>
+      x<sub>2</sub>=
+      <input id="x2-slider" class="slider" type="range" min="1" max="250"/>
+      <div class="slider-val" id="x2-val"></div><br>
+
+      n<sub>2</sub>=
+      <input id="n2-slider" class="slider" type="range" min="1" max="250" value="250" />
+      <div class="slider-val" id="n2-val"></div>
+    </div>
+    <br>
+    <button id="find-stat" type="button" class="btn btn-default btn-sm">
+      Find test statistic
+    </button>
+    <button id="reset" type="button" class="btn btn-default btn-sm">
+      Reset
+    </button><br><br>
+    Show calculation of test statistic&nbsp;<input type="checkbox" id="test-stat-cal">
+  </div>
+
+  <div class="col-xs-3 graph-col">
+    <div id="graph-container">
+      <div id="z-val" align="center"></div>
+      <svg class='Graph'/>
+      <div id="z-scores" align="center"></div>
+    </div>
+    <div id="test-statistic"></div>
+  </div>
+</span>
+</body>
+</html>

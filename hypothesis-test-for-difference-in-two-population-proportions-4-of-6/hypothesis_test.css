@@ -1,0 +1,22 @@
+input[type=range].slider {
+    width: 150px;
+    display: inline-block;
+}
+div.slider-val {
+    display: inline-block;
+}
+
+#input-container {
+    width: 250px;
+}
+
+div.graph-col {
+    width: 420px;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}
