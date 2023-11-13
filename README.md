@@ -1,0 +1,3 @@
+# ofdit.github.io
+These sims are part of CUNY’s School of Professional Studies’ version of Concepts in Statistics: https://pressbooks.cuny.edu/conceptsinstatistics/. 
+Our OER textbook is a replication of a highly interactive, openly licensed textbook first offered under a CC-BY license by the Online Learning Initiative: https://oli.cmu.edu/courses/concepts-of-statistics/. We built our copy, including the sims in this repository, from Lumen Learning’s openly licensed version, which attributes the OLI and a handful of other sources, as noted on each page of the textbook: https://courses.lumenlearning.com/wm-concepts-statistics/. We have copied and retained the sims in order to facilitate future revising and remixing, and we offer them here with a CC-BY-SA license.
